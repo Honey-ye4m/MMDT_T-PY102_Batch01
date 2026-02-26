@@ -20,4 +20,4 @@ def submission_check():
     Example:
     "PY102001001"
     """
-    return "REPLACE_WITH_YOUR_STUDENT_ID"
+    return "PY102001014"
