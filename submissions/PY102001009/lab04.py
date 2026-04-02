@@ -57,19 +57,11 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
 
     submissions
     ├── PY102001009
-    │   ├── .gitkeep
-    │   │   ├── lab00.py
-    │   │   ├── lab01.py
-    │   ├── autograder_results.json
-    │   │   ├── lab02.py
-    │   │   ├── lab03.py
-    │── PY102001012
-    │   ├── .gitkeep
-    │   │   ├── lab00.py
-    │   │   ├── lab01.py
-    │   ├── autograder_results.json
-    │   │   ├── lab02.py
-    │   │   ├── lab03.py
+    │   ├── lab02.py
+    │   ├── lab03.py
+    └── PY102001012
+        ├── lab02.py
+        ├── lab03.py
     """
 
     root = TreeNode(base_path)
@@ -79,23 +71,11 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     root.left = folder1_node
     root.right = folder2_node
 
-    folder1_node.left = TreeNode(".gitkeep")
-    folder1_node.right = TreeNode("autograder_results.json")
+    folder1_node.left = TreeNode("lab02.py")
+    folder1_node.right = TreeNode("lab03.py")
 
-    folder1_node.left.left = TreeNode("lab00.py")
-    folder1_node.left.right = TreeNode("lab01.py")
-
-    folder1_node.right.left = TreeNode("lab02.py")
-    folder1_node.right.right = TreeNode("lab03.py")
-
-    folder2_node.left = TreeNode(".gitkeep")
-    folder2_node.right = TreeNode("autograder_results.json")
-
-    folder2_node.left.left = TreeNode("lab00.py")
-    folder2_node.left.right = TreeNode("lab01.py")
-
-    folder2_node.right.left = TreeNode("lab02.py")
-    folder2_node.right.right = TreeNode("lab03.py")
+    folder2_node.left = TreeNode("lab02.py")
+    folder2_node.right = TreeNode("lab03.py")
 
     return root
 
@@ -121,8 +101,9 @@ def print_all_nodes(root: TreeNode) -> None:
     Traverse the tree and print the value stored in EVERY node.
     root: the TreeNode returned from build_submission_tree
     """
+
     for value in preorder(root):
-        print(value, end=" ")
+        print(value)
 
 
 # -------------------------
@@ -145,6 +126,7 @@ def find_py_files(root: TreeNode) -> list[str]:
     Traverse the tree and return a list of all '.py' files.
     root: the TreeNode returned from build_submission_tree
     """
+
     py_files_lst = []
     folder_path = ""
 
@@ -160,25 +142,16 @@ def find_py_files(root: TreeNode) -> list[str]:
 
 
 """
-
 def test_build_submission_tree():
     root = build_submission_tree("submissions", "PY102001009", "PY102001012")
     assert root.value == "submissions"
 
     assert root.left.value == "PY102001009"
     assert root.right.value == "PY102001012"
-    assert root.left.left.value == ".gitkeep"
-    assert root.left.right.value == "autograder_results.json"
-    assert root.left.left.left.value == "lab00.py"
-    assert root.left.left.right.value == "lab01.py"
-    assert root.left.right.left.value == "lab02.py"
-    assert root.left.right.right.value == "lab03.py"
-    assert root.right.left.value == ".gitkeep"
-    assert root.right.right.value == "autograder_results.json"
-    assert root.right.left.left.value == "lab00.py"
-    assert root.right.left.right.value == "lab01.py"
-    assert root.right.right.left.value == "lab02.py"
-    assert root.right.right.right.value == "lab03.py"
+    assert root.left.left.value == "lab02.py"
+    assert root.left.right.value == "lab03.py"
+    assert root.right.left.value == "lab02.py"
+    assert root.right.right.value == "lab03.py"
 
 
 def test_print_all_nodes():
@@ -193,12 +166,8 @@ def test_find_py_files():
     root = build_submission_tree("submissions", "PY102001009", "PY102001012")
     py_files = find_py_files(root)
     expected_files = [
-        "PY102001009/lab00.py",
-        "PY102001009/lab01.py",
         "PY102001009/lab02.py",
         "PY102001009/lab03.py",
-        "PY102001012/lab00.py",
-        "PY102001012/lab01.py",
         "PY102001012/lab02.py",
         "PY102001012/lab03.py",
     ]
@@ -206,27 +175,20 @@ def test_find_py_files():
     print()
     print("py_files")
     print(py_files)
-    # print("=" * 100)
 
     print("expected_files")
     print(expected_files)
-    # print("=" * 100)
 
     assert sorted(py_files) == sorted(expected_files)
 
 
 def main() -> None:
 
-    # test_build_submission_tree()
+    test_build_submission_tree()
 
     root_node = build_submission_tree("submissions", "PY102001009", "PY102001012")
 
-    # print("=" * 100)
-    # print("print_all_nodes")
-    # print_all_nodes(root_node)
-    # print("=" * 100)
-
-    # test_print_all_nodes()
+    test_print_all_nodes()
 
     find_py_files(root_node)
 
