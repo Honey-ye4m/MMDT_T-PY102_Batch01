@@ -60,19 +60,22 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # -------------------------
 def build_class_bst():
     # Step 1: create student ID list
-    init_id = 1035
+    init_id = 1014
     num_stus = 6
     nums = [init_id + k for k in range(num_stus)]
     
     # Step 2: build balanced BST
     root = sorted_array_to_bst(nums)
+    Additional_ids =[1020, 1021, 1022, 1023, 1024,1025]  # example extra IDs to insert
     
     # Step 3: insert extra out-of-order IDs
-    root = insert_bst(root, 1043)  # example
+    for id in Additional_ids:
+        root = insert_bst(root, id)
     
     # Step 4: print all nodes (in-order)
-    print("BST Nodes (Inorder Traversal):")
+    print("BST Nodes (sorted order):")
     print_all_nodes(root)
+    print()
     
     # Step 5: print max iterations to search
     print("Max possible iteration to search a student ID:", height(root))
