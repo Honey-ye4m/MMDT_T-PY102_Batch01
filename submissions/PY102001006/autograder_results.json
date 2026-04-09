@@ -1,23 +1,23 @@
 {
-  "earned": 0,
-  "max": 22,
+  "earned": 14,
+  "max": 20,
   "details": [
     {
       "nodeid": "autograder/tests/test_lab04.py::test_q1_build_submission_tree",
       "outcome": "failed",
       "points": 0,
-      "max_points": 8
+      "max_points": 6
     },
     {
       "nodeid": "autograder/tests/test_lab04.py::test_q2_print_all_nodes",
-      "outcome": "failed",
-      "points": 0,
+      "outcome": "passed",
+      "points": 7,
       "max_points": 7
     },
     {
       "nodeid": "autograder/tests/test_lab04.py::test_q3_find_py_files",
-      "outcome": "failed",
-      "points": 0,
+      "outcome": "passed",
+      "points": 7,
       "max_points": 7
     }
   ],
