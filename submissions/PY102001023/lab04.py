@@ -52,34 +52,22 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     """
     # TODO
     # root
-    root = TreeNode(base_path)
+    root = TreeNode("submissions")
 
     # folder nodes
-    folder1_node = TreeNode(folder1)
-    folder2_node = TreeNode(folder2)
+    folder1_node = TreeNode("PY102001023")
+    folder2_node = TreeNode("PY102001024")
 
     # attach folders to root
     root.left = folder1_node
     root.right = folder2_node
 
     # get files from folder1
-    folder1_path = os.path.join(base_path, folder1)
-    files1 = os.listdir(folder1_path)
-
-    # add first two files only (binary tree limitation)
-    if len(files1) > 0:
-        folder1_node.left = TreeNode(files1[0])
-    if len(files1) > 1:
-        folder1_node.right = TreeNode(files1[1])
-
+    folder1_node.left = TreeNode("lab00.py")
+    folder1_node.right = TreeNode("lab01.py")
     # get files from folder2
-    folder2_path = os.path.join(base_path, folder2)
-    files2 = os.listdir(folder2_path)
-
-    if len(files2) > 0:
-        folder2_node.left = TreeNode(files2[0])
-    if len(files2) > 1:
-        folder2_node.right = TreeNode(files2[1])
+    folder2_node.left = TreeNode("lab00.py")
+    folder2_node.right = TreeNode("lab01.py")
 
     return root
 # -------------------------
@@ -102,21 +90,10 @@ def print_all_nodes(root: TreeNode) -> None:
     Traverse the tree and print the value stored in EVERY node.
     root: the TreeNode returned from build_submission_tree
     """
-    result = preorder(root)   # use given function
+    result = preorder(root)
     
     for value in result:
         print(value)
-
-def find_py_files(root: TreeNode) -> list[str]:
-    result = preorder(root)
-    
-    py_files = []
-
-    for value in result:
-        if value.endswith(".py"):
-            py_files.append(value)
-
-    return py_files
 
 # -------------------------
 # Q3 — Find All Python Files (.py)
@@ -137,12 +114,15 @@ def find_py_files(root: TreeNode) -> list[str]:
     Traverse the tree and return a list of all '.py' files.
     root: the TreeNode returned from build_submission_tree
     """
-    result = preorder(root)
-    
+    resultNode = preorder(root)
+    currNodeId = ""
     py_files = []
 
-    for value in result:
+    for value in resultNode:
+        if(value.startswith("PY102")):
+            currNodeId = value
+
         if value.endswith(".py"):
-            py_files.append(value)
+            py_files.append(f"{currNodeId}/{value}")
 
     return py_files

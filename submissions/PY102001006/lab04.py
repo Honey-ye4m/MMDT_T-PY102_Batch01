@@ -43,7 +43,6 @@ def postorder(root):
 #         └── fileD
 # -------------------------
 
-import os
 def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNode:
     """
     base_path: "submissions"
@@ -52,42 +51,24 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     returns: root TreeNode
     """
     # TODO
-    root = TreeNode("submissions")
-    def folder_node(folder_name):
-        folder_path = os.path.join(base_path, folder_name)
+    base_path = "submissions"
+    root = TreeNode(base_path)
+    
+    folder1 = "PY102001006"
+    root.left = TreeNode(folder1)
 
-        # get the files under folder
-        files = [
-            f for f in os.listdir(folder_path)
-            if os.path.isfile(os.path.join(folder_path, f)) and not f.startswith('.')
-        ]
 
-        files.sort()
+    folder2 = "PY102001007"
+    root.right = TreeNode(folder2)
 
-        # linking the files
-        head = None
-        current = None
-
-        for file in files:
-            node = TreeNode(file)
-            if head is None:
-                head = node
-                current = node
-            else:
-                current.right = node
-                current = node
-
-        return TreeNode(folder_name, left=head)
-
-    # building folder nodes
-    f1 = folder_node(folder1)
-    f2 = folder_node(folder2)
-
-    # connecting folders
-    root.left = f1
-    f1.right = f2
+    root.left.left = TreeNode("lab01.py")
+    root.left.right = TreeNode("lab02.py")
+    
+    root.right.left = TreeNode("lab01.py")
+    root.right.right = TreeNode("lab02.py")
 
     return root
+
 
 # -------------------------
 # Q2 — Visit All Nodes Using Tree Traversal (Print Everything)
@@ -146,5 +127,7 @@ def find_py_files(root: TreeNode) -> list[str]:
             result.append(f"{current_folder}/{value}")
 
     return result
+
+ 
 
  

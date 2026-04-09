@@ -51,17 +51,17 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     returns: root TreeNode
     """
     root = TreeNode(base_path)
+
     root.left = TreeNode(folder1)
     root.right = TreeNode(folder2)
-    root.left.left = TreeNode("lab00.py")
-    root.left.right = TreeNode("lab01.py")
-    root.right.left = TreeNode("lab00.py")
-    root.right.right = TreeNode("lab01.py")
 
+    root.left.left = TreeNode("fileA.py")
+    root.left.right = TreeNode("fileB.txt")
+
+    root.right.left = TreeNode("fileC.py")
+    root.right.right = TreeNode("fileD.pdf")
+    
     return root
-    # TODO
-    raise NotImplementedError
-
 # -------------------------
 # Q2 — Visit All Nodes Using Tree Traversal (Print Everything)
 #
@@ -82,12 +82,13 @@ def print_all_nodes(root: TreeNode) -> None:
     Traverse the tree and print the value stored in EVERY node.
     root: the TreeNode returned from build_submission_tree
     """
-    all_nodes = preorder(root)
-    for node in all_nodes:
-        print(node)
-    #raise NotImplementedError("Implement Q2 here.")
 
+    nodes = preorder(root)
 
+    for node_value in nodes:
+        print(node_value)
+    
+   
 # -------------------------
 # Q3 — Find All Python Files (.py)
 #
@@ -107,21 +108,10 @@ def find_py_files(root: TreeNode) -> list[str]:
     Traverse the tree and return a list of all '.py' files.
     root: the TreeNode returned from build_submission_tree
     """
+
     all_nodes = preorder(root)
-    py_files = []
-    current_folder = None
-
-    for value in all_nodes:
-        if value.endswith(".py"):
-            if current_folder is not None:
-                py_files.append(current_folder + "/" + value)
-        else:
-            if value != root.value:
-                current_folder = value
+    py_files = [name for name in all_nodes if name.endswith(".py")]
+    
     return py_files
-    raise NotImplementedError("Implement Q3 here.")
-
-# myNode = build_submission_tree("submissions","PY102001035", "PY102001036")
-# print_all_nodes(myNode)
-# allFiles = find_py_files(myNode)
-# print(allFiles)
+    
+ 

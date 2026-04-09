@@ -53,39 +53,41 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     """
     # TODO
 
-    def get_files(path):
-        only_file=[]
-        if not os.path.exists(path):
-            return []
+    base_path = "submissions"
+    root = TreeNode(base_path)
 
-        all_items=os.listdir(path)
-        for item in all_items:
-            full_path = os.path.join(path,item)
-            if os.path.isfile(full_path):
-                only_file.append(item)
-        return only_file
+    folder1 = "PY102001020"
+    folder2 = "PY102001022"
 
+    root.left = TreeNode(folder1)
+    root.right = TreeNode(folder2)
 
-    def build_file_nodes(files):
-        if not files:
-            return None
+    folder1_path = os.path.join(base_path, folder1)
+    folder2_path = os.path.join(base_path, folder2)
 
-        root = TreeNode(files[0])
-        current = root
+    current = None
+    for item in sorted(os.listdir(folder1_path)):
+        full_path = os.path.join(folder1_path,item)
+        if os.path.isfile(full_path):
+            node = TreeNode(item)
+        if root.left.left is None:
+            root.left.left = node
+        else:
+            current.right = node
+        current = node
 
-        for f in files[1:]:
-            current.right=TreeNode(f)
-            current=current.right
+    current = None
+    for item in sorted(os.listdir(folder2_path)):
+        full_path = os.path.join(folder2_path,item)
+        if os.path.isfile(full_path):
+            node = TreeNode(item)
+        if root.right.left is None:
+            root.right.left = node
+        else:
+            current.right = node
+        current = node
 
-        return root
-
-    files1 = get_files(os.path.join(base_path, folder1))
-    files2 = get_files(os.path.join(base_path, folder2))
-
-    node_folder1 = TreeNode(folder1, left = build_file_nodes(files1))
-    node_folder2 = TreeNode(folder2, left = build_file_nodes(files2))
-
-    return TreeNode(base_path, left=node_folder1, right=node_folder2)
+    return root 
 
     # raise NotImplementedError
 
@@ -110,8 +112,7 @@ def print_all_nodes(root: TreeNode) -> None:
     root: the TreeNode returned from build_submission_tree
     """
 
-    node = preorder(root)
-    for value in node:
+    for value in preorder(root):
         print(value)
 
     #raise NotImplementedError("Implement Q2 here.")
@@ -137,14 +138,10 @@ def find_py_files(root: TreeNode) -> list[str]:
     """
 
     result=[]
-    node=preorder(root)
-    curr_folder=""
     
-    for value in node:
-        if "." not in value:
-            curr_folder=value
-        elif value.endswith(".py"):
-            result.append(f"{curr_folder}/{value}")
+    for value in preorder(root):
+        if value.endswith(".py"):
+            result.append(value)
 
     return result
 

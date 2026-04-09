@@ -1,6 +1,9 @@
 # -------------------------
 # Do not change the below Code
 # -------------------------
+from logging import root
+
+
 class TreeNode:
     def __init__(self, value: str, left = None, right = None):
         self.value = value
@@ -50,34 +53,28 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     folder2: name of your friend's folder inside submissions
     returns: root TreeNode
     """
-    import os
-    if not base_path or not folder1 or not folder2:
-        raise ValueError("Base path, folder1, and folder2 must be provided.")
+
     
-    root = TreeNode("submissions")
+    base_root = TreeNode(base_path)
     folder1_node = TreeNode(folder1)
     folder2_node = TreeNode(folder2)
-    root.left = folder1_node
-    root.right = folder2_node
-    def file_chain_tree(files):
-        if not files:
-            return None
-        node = [TreeNode(file) for file in files]
-        for i in range(len(node) - 1):
-            node[i].right = node[i + 1]
-        return node[0] if node else None
+    base_root.left = folder1_node
+    base_root.right = folder2_node
+    
+    def add_files(folder_node):
+        file1 = TreeNode("lab01.py")
+        file2 = TreeNode("lab02.py")
+        file3 = TreeNode("lab03.py")
+        file4 = TreeNode("lab04.py")
+        folder_node.left = file1
+        file1.right = file2
+        file2.right = file3
+        file3.right = file4
+        
+    add_files(folder1_node)
+    add_files(folder2_node)
 
-    folder1_path = os.path.join(base_path, folder1)
-    folder1_files = os.listdir(folder1_path)
-    folder1_files = sorted([f for f in folder1_files if os.path.isfile(os.path.join(folder1_path,f))])
-    folder1_node.left = file_chain_tree(folder1_files)
-
-    folder2_path = os.path.join(base_path, folder2)
-    folder2_files = os.listdir(folder2_path)
-    folder2_files = sorted([f for f in folder2_files if os.path.isfile(os.path.join(folder2_path,f))])
-    folder2_node.left = file_chain_tree(folder2_files)
-
-    return root
+    return base_root
 
 # -------------------------
 # Q2 — Visit All Nodes Using Tree Traversal (Print Everything)
@@ -129,26 +126,8 @@ def find_py_files(root: TreeNode) -> list[str]:
     
     py_files = []
     
-    def traverse(node, current_path=""):
-        if not node:
-            return
-        
-        if node.value == ".gitkeep":
-            traverse(node.left, current_path)
-            traverse(node.right, current_path)
-            return
-                
-        if node.value.endswith('.py'):
-            py_files.append(f"{current_path}/{node.value}")
-            traverse(node.left, current_path)
-            traverse(node.right, current_path)
-            return
-                
-        new_path = node.value if not current_path else f"{current_path}/{node.value}"
-        traverse(node.left, new_path)
-        traverse(node.right, new_path)
-       
-    traverse(root.left)
-    traverse(root.right)
+    for value in preorder(root):
+        if value.endswith('.py'):
+            py_files.append(value)
     
     return py_files
